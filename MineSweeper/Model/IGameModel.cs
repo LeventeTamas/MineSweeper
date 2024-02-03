@@ -11,6 +11,8 @@ namespace MineSweeper.Model
     {
         void NewGame();
         SharedStructs.Field[,] GetFields();
-        void MarkField(int row, int column);
+        void MarkField(int row, int col);
+        void RevealField(int row, int col);
+        void ClearFieldsAround(int row, int col);
     }
 }

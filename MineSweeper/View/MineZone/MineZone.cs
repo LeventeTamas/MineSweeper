@@ -11,33 +11,70 @@ using System.Windows.Forms;
 
 namespace MineSweeper.View.MineZone
 {
-    public delegate void MarkFieldHandler(int row, int column);
+    public delegate void MarkFieldEventHandler(int row, int column);
+    public delegate void RevealFieldEventHandler(int row, int column);
+    public delegate void ClearFieldsAroundEventHandler(int row, int column);
     public class MineZone : Control
     {
         private MineZoneField[,] fields;
-        public const int FIELD_SIZE = 30;
+        public const int FIELD_SIZE = 40;
 
-        public event MarkFieldHandler OnMarkField;
+        // Create Images
+        Bitmap imageCovered;
+        Bitmap imageHighlighted;
+        Bitmap imageMarked;
+        Bitmap imageCleared;
+        Bitmap imageMine;
+
+        public event MarkFieldEventHandler OnMarkField;
+        public event RevealFieldEventHandler OnRevealField;
+        public event ClearFieldsAroundEventHandler OnClearFieldsAround;
 
         public MineZone()
         {
+            this.DoubleBuffered = true;
+
             fields = new MineZoneField[0, 0];
             this.ResizeRedraw = true;
             this.MouseMove += MouseMoveHandler;
             this.MouseClick += MouseClickHandler;
+            this.MouseDoubleClick += MouseDoubleClickHandler;
+
+            // Create Images
+            imageCovered = GraphicsHelper.CreateFieldImage(FIELD_SIZE, FIELD_SIZE, Color.AliceBlue, Color.FromArgb(45, 128, 255));
+            imageHighlighted = GraphicsHelper.CreateFieldImage(FIELD_SIZE, FIELD_SIZE, Color.AliceBlue, Color.FromArgb(95, 178, 255));
+            imageMarked = GraphicsHelper.CreateFieldImage(FIELD_SIZE, FIELD_SIZE, Color.AliceBlue, Color.FromArgb(255, 178, 45));
+            imageCleared = GraphicsHelper.CreateFieldImage(FIELD_SIZE, FIELD_SIZE, Color.LightGray, Color.DarkGray);
+            imageMine = GraphicsHelper.CreateImageMine(imageCleared);
         }
 
         public void SetFileds(MineZoneField[,] fields)
         {
             this.fields = fields;
+            this.Invalidate();
         }
 
         #region mouse events
+        private void MouseDoubleClickHandler(object sender, MouseEventArgs e)
+        {
+            int[] selectedFieldCoords = GetSelectedFieldCoords(e.X, e.Y);
+            OnClearFieldsAround(selectedFieldCoords[0], selectedFieldCoords[1]);
+        }
+
         private void MouseClickHandler(object sender, MouseEventArgs e)
         {
             int[] selectedFieldCoords = GetSelectedFieldCoords(e.X, e.Y);
-            if(e.Button == MouseButtons.Right)
-                OnMarkField(selectedFieldCoords[0], selectedFieldCoords[1]); // row, column
+            switch (e.Button) {
+                case MouseButtons.Right:{
+                        OnMarkField(selectedFieldCoords[0], selectedFieldCoords[1]); // row, column
+                        break;
+                    }
+                case MouseButtons.Left:
+                    {
+                        OnRevealField(selectedFieldCoords[0], selectedFieldCoords[1]);
+                        break;
+                    }
+            }
         }
 
         private void MouseMoveHandler(object sender, MouseEventArgs e)
@@ -56,7 +93,7 @@ namespace MineSweeper.View.MineZone
                     // Highlight the field the mouse is over
                     selectedField.IsHighlighted = true;
 
-                    this.Invalidate();
+                   this.Invalidate();
                 }
             }
         } 
@@ -70,8 +107,8 @@ namespace MineSweeper.View.MineZone
             if (rowNum > 0 && colNum > 0)
             {
                 // Which field is the mouse over?
-                int fieldRow = mouseX / FIELD_SIZE;
-                int fieldCol = mouseY / FIELD_SIZE;
+                int fieldRow = mouseY / FIELD_SIZE;
+                int fieldCol = mouseX / FIELD_SIZE;
                 if (fieldRow < rowNum && fieldCol < colNum)
                     coords = new int[] { fieldRow, fieldCol };
             }
@@ -86,87 +123,55 @@ namespace MineSweeper.View.MineZone
             int rowNum = fields.GetLength(0);
             int colNum = fields.GetLength(1);
 
-            // Create Images
-            Bitmap imageCovered = CreateFieldImage(FIELD_SIZE, FIELD_SIZE, Color.AliceBlue, Color.FromArgb(45, 128, 255));
-            Bitmap imageHover = CreateFieldImage(FIELD_SIZE, FIELD_SIZE, Color.AliceBlue, Color.FromArgb(255, 239, 45));
-            Bitmap imageMarked = CreateFieldImage(FIELD_SIZE, FIELD_SIZE, Color.FromArgb(45, 255, 128), Color.DarkGreen);
-            Bitmap imageCleared = CreateFieldImage(FIELD_SIZE, FIELD_SIZE, Color.LightGray, Color.DarkGray);
-            Bitmap imageMine = CreateImageMine(imageCleared);
-
             // Draw
             Graphics g = e.Graphics;
-            
-            g.Clear(Color.White);
 
             // FIELDS
             for (int r = 0; r < rowNum; r++)
             {
                 for (int c = 0; c < colNum; c++)
                 {
-                    int y = c * FIELD_SIZE;
-                    int x = r * FIELD_SIZE;
+                    int y = r * FIELD_SIZE;
+                    int x = c * FIELD_SIZE;
                     Bitmap image = imageCovered;
-                    switch(fields[r, c].FieldType)
+                    switch (fields[r, c].FieldType)
                     {
-                        case MineZoneFieldType.MARKED:{ image = imageMarked; break; }
-                        case MineZoneFieldType.CLEARED: { image = imageCleared; break; }
+                        case MineZoneFieldType.MARKED: { image = imageMarked; break; }
+                        case MineZoneFieldType.REVEALED: { image = imageCleared; break; }
                         case MineZoneFieldType.MINE: { image = imageMine; break; }
                         case MineZoneFieldType.COVERED: {
                                 if (fields[r, c].IsHighlighted)
-                                    image = imageHover;
+                                    image = imageHighlighted;
                                 else
                                     image = imageCovered;
-                                break; 
+                                break;
                             }
                     }
                     g.DrawImage(image, x, y, FIELD_SIZE, FIELD_SIZE);
+                    if (fields[r, c].FieldType == MineZoneFieldType.REVEALED) {
+                        Font font = new Font("Comic Sans MS", 12);
+                        SizeF stringSize = GraphicsHelper.MeasureString(fields[r, c].Content, font);
+                        g.DrawString(fields[r, c].Content, font, new SolidBrush(Color.Black), x + FIELD_SIZE/2 - stringSize.Width/2, y + FIELD_SIZE/2 - stringSize.Height/2);
+                    }
                 }
             }
 
             // GRID
             // Horizontal lines
-            for (int r = 0; r < rowNum+1; r++)
+            for (int r = 0; r < rowNum + 1; r++)
             {
                 int y = r * FIELD_SIZE;
                 g.DrawLine(new Pen(Color.Black), 0, y, e.ClipRectangle.Width, y);
             }
             // Vertical lines
-            for (int c = 0; c < colNum+1; c++)
+            for (int c = 0; c < colNum + 1; c++)
             {
                 int x = c * FIELD_SIZE;
                 g.DrawLine(new Pen(Color.Black), x, 0, x, e.ClipRectangle.Height);
             }
+            
         }
-
-        private Bitmap CreateFieldImage(int width, int height, Color color1, Color color2)
-        {
-            Bitmap bitmap = new Bitmap(width, height);
-
-            GraphicsPath path = new GraphicsPath();
-            path.AddRectangle(new Rectangle(0, 0, width, height));
-
-            PathGradientBrush brush = new PathGradientBrush(path);
-            brush.CenterColor = color1;
-            brush.SurroundColors = new Color[] { color2 };
-
-            using (Graphics g = Graphics.FromImage(bitmap))
-            {
-                g.FillRectangle(brush, 0, 0, width, height);
-            }
-
-            return bitmap;
-        }
-
-        private Bitmap CreateImageMine(Bitmap background)
-        {
-            Bitmap bitmap = new Bitmap(background.Width, background.Height);
-            using (Graphics g = Graphics.FromImage(bitmap))
-            {
-                g.DrawImage(background, 0, 0, background.Width, background.Height);
-                g.DrawImage(Properties.Resources.mine, 0, 0, background.Width, background.Height);
-            }
-            return bitmap;
-        }
+        
         #endregion
     }
 }

@@ -9,7 +9,7 @@ namespace MineSweeper.View.MineZone
     public enum MineZoneFieldType
     {
         COVERED,
-        CLEARED,
+        REVEALED,
         MARKED,
         MINE
     }

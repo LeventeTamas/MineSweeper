@@ -1,7 +1,9 @@
-﻿using System;
+﻿using MineSweeper.View.MineZone;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -17,14 +19,19 @@ namespace MineSweeper.View
         
         public event WindowClosingEventHandler OnWindowClosing; 
         public event MarkFieldEventHandler OnMarkField;
+        public event RevealFieldEventHandler OnRevealField;
+        public event ClearFieldsAroundEventHandler OnClearFieldsAround;
 
 
         public MainWindow(Model.IGameModel gameModel)
         {
             this.gameModel = gameModel;
             InitializeComponent();
+            SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
 
             mineZone1.OnMarkField += mineZone1_MarkField;
+            mineZone1.OnRevealField += mineZone1_RevealField;
+            mineZone1.OnClearFieldsAround += mineZone1_ClearFieldsAround;
         }
 
         public void UpdateView()
@@ -53,7 +60,7 @@ namespace MineSweeper.View
                                 mineZoneFieldType = MineZone.MineZoneFieldType.MARKED; break;
                             }
                         case SharedStructs.FiledState.CLEARED: {
-                                mineZoneFieldType = MineZone.MineZoneFieldType.CLEARED; break;
+                                mineZoneFieldType = MineZone.MineZoneFieldType.REVEALED; break;
                             }
                         case SharedStructs.FiledState.MINE:{
                                 mineZoneFieldType = MineZone.MineZoneFieldType.MINE; break;
@@ -70,12 +77,22 @@ namespace MineSweeper.View
             }
 
             mineZone1.SetFileds(mineZoneFields);
-            mineZone1.Update();
         }
 
+        #region events
         private void mineZone1_MarkField(int row, int col)
         {
             OnMarkField(row, col);
+        }
+
+        private void mineZone1_RevealField(int row, int col)
+        {
+            OnRevealField(row, col);
+        }
+        #endregion
+        private void mineZone1_ClearFieldsAround(int row, int col)
+        {
+            OnClearFieldsAround(row, col);
         }
 
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)

@@ -19,6 +19,8 @@ namespace MineSweeper.Controller
             mainView = new View.MainWindow(gameModel);
             mainView.OnWindowClosing += mainView_OnWindowClosing;
             mainView.OnMarkField += mainView_OnMarkField;
+            mainView.OnRevealField += mainView_OnRevealField;
+            mainView.OnClearFieldsAround += mainView_OnClearFieldsAround;
             mainView.Show();
             mainView.UpdateView();
         }
@@ -28,9 +30,21 @@ namespace MineSweeper.Controller
             Application.Exit();
         }
 
-        private void mainView_OnMarkField(int row, int column)
+        private void mainView_OnMarkField(int row, int col)
         {
-            gameModel.MarkField(row, column);
+            gameModel.MarkField(row, col);
+            mainView.UpdateView();
+        }
+
+        private void mainView_OnRevealField(int row, int col)
+        {
+            gameModel.RevealField(row, col);
+            mainView.UpdateView();
+        }
+
+        private void mainView_OnClearFieldsAround(int row, int col)
+        {
+            gameModel.ClearFieldsAround(row, col);
             mainView.UpdateView();
         }
     }

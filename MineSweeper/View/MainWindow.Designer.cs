@@ -38,9 +38,12 @@
             this.openSavedGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.lbRemainingMines = new System.Windows.Forms.Label();
+            this.lbTime = new System.Windows.Forms.Label();
             this.mineZone1 = new MineSweeper.View.MineZone.MineZone();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
@@ -121,12 +124,36 @@
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.lbRemainingMines);
+            // 
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.mineZone1);
             this.splitContainer1.Size = new System.Drawing.Size(394, 517);
             this.splitContainer1.SplitterDistance = 115;
             this.splitContainer1.TabIndex = 2;
+            // 
+            // lbRemainingMines
+            // 
+            this.lbRemainingMines.AutoSize = true;
+            this.lbRemainingMines.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbRemainingMines.Location = new System.Drawing.Point(3, 35);
+            this.lbRemainingMines.Name = "lbRemainingMines";
+            this.lbRemainingMines.Size = new System.Drawing.Size(55, 39);
+            this.lbRemainingMines.TabIndex = 3;
+            this.lbRemainingMines.Text = "00";
+            // 
+            // lbTime
+            // 
+            this.lbTime.AutoSize = true;
+            this.lbTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbTime.Location = new System.Drawing.Point(279, 59);
+            this.lbTime.Name = "lbTime";
+            this.lbTime.Size = new System.Drawing.Size(103, 39);
+            this.lbTime.TabIndex = 4;
+            this.lbTime.Text = "00:00";
             // 
             // mineZone1
             // 
@@ -143,15 +170,20 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(394, 541);
+            this.Controls.Add(this.lbTime);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.menuStrip1);
             this.DoubleBuffered = true;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
             this.Name = "MainWindow";
             this.Text = "MineSweeper by Levente Tamás";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
@@ -173,6 +205,8 @@
         private System.Windows.Forms.ToolStripMenuItem saveGameToolStripMenuItem;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private MineZone.MineZone mineZone1;
+        private System.Windows.Forms.Label lbTime;
+        private System.Windows.Forms.Label lbRemainingMines;
     }
 }
 

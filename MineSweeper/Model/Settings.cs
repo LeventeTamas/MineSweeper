@@ -9,20 +9,20 @@ namespace MineSweeper.Model
     [Serializable]
     public class Settings
     {
-        public int GridWidth { get; set; }
-        public int GridHeight { get; set; }
+        public int NumOfColumns { get; set; }
+        public int NumberOfRows { get; set; }
         public int NumberOfMines { get; set; }
 
         public Settings() { 
-            GridWidth = 10;
-            GridHeight = 10;
-            NumberOfMines = 12;
+            NumOfColumns = 15;
+            NumberOfRows = 10;
+            NumberOfMines = 20;
         }
 
-        public Settings(int gridWidth, int gridHeight, int numberOfMines)
+        public Settings(int numberOfColumns, int numberOfRows, int numberOfMines)
         {
-            GridWidth = gridWidth;
-            GridHeight = gridHeight;
+            NumOfColumns = numberOfColumns;
+            NumberOfRows = numberOfRows;
             NumberOfMines = numberOfMines;
         }
     }
