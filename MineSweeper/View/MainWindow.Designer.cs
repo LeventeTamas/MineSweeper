@@ -1,4 +1,4 @@
-﻿namespace MineSweeper
+﻿namespace MineSweeper.View
 {
     partial class MainWindow
     {
@@ -30,14 +30,14 @@
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.gameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openSavedGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pauseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openSavedGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pauseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -68,6 +68,30 @@
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.fileToolStripMenuItem.Text = "Game";
             // 
+            // pauseToolStripMenuItem
+            // 
+            this.pauseToolStripMenuItem.Name = "pauseToolStripMenuItem";
+            this.pauseToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.pauseToolStripMenuItem.Text = "Pause";
+            // 
+            // newGameToolStripMenuItem
+            // 
+            this.newGameToolStripMenuItem.Name = "newGameToolStripMenuItem";
+            this.newGameToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.newGameToolStripMenuItem.Text = "New Game";
+            // 
+            // settingsToolStripMenuItem
+            // 
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.settingsToolStripMenuItem.Text = "Settings";
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            // 
             // gameToolStripMenuItem
             // 
             this.gameToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -80,32 +104,14 @@
             // openSavedGameToolStripMenuItem
             // 
             this.openSavedGameToolStripMenuItem.Name = "openSavedGameToolStripMenuItem";
-            this.openSavedGameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openSavedGameToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.openSavedGameToolStripMenuItem.Text = "Open Game...";
             // 
             // saveGameToolStripMenuItem
             // 
             this.saveGameToolStripMenuItem.Name = "saveGameToolStripMenuItem";
-            this.saveGameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveGameToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.saveGameToolStripMenuItem.Text = "Save Game...";
-            // 
-            // newGameToolStripMenuItem
-            // 
-            this.newGameToolStripMenuItem.Name = "newGameToolStripMenuItem";
-            this.newGameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.newGameToolStripMenuItem.Text = "New Game";
-            // 
-            // settingsToolStripMenuItem
-            // 
-            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.settingsToolStripMenuItem.Text = "Settings";
-            // 
-            // exitToolStripMenuItem
-            // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.exitToolStripMenuItem.Text = "Exit";
             // 
             // pictureBox1
             // 
@@ -115,12 +121,6 @@
             this.pictureBox1.Size = new System.Drawing.Size(394, 398);
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
-            // 
-            // pauseToolStripMenuItem
-            // 
-            this.pauseToolStripMenuItem.Name = "pauseToolStripMenuItem";
-            this.pauseToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.pauseToolStripMenuItem.Text = "Pause";
             // 
             // splitContainer1
             // 
@@ -138,7 +138,7 @@
             this.splitContainer1.SplitterDistance = 115;
             this.splitContainer1.TabIndex = 2;
             // 
-            // Form1
+            // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -146,8 +146,9 @@
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "Form1";
+            this.Name = "MainWindow";
             this.Text = "MineSweeper by Levente Tamás";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

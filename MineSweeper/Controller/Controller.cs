@@ -9,6 +9,18 @@ namespace MineSweeper.Controller
 {
     public class Controller : ApplicationContext
     {
+        private View.IMainView mainView;
 
+        public Controller()
+        {
+            mainView = new View.MainWindow();
+            mainView.OnWindowClosing += CloseApplication;
+            mainView.Show();
+        }
+
+        private void CloseApplication()
+        {
+            Application.Exit();
+        }
     }
 }
