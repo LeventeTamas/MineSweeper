@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 namespace MineSweeper.View
 {
-    public delegate void WindowClosing();
+    public delegate void WindowClosingEventHandler();
+    public delegate void MarkFieldEventHandler(int row, int col);
     public interface IMainView
-    {
+    { 
         void Show();
-        event WindowClosing OnWindowClosing;
+        void UpdateView();
+        event WindowClosingEventHandler OnWindowClosing;
+        event MarkFieldEventHandler OnMarkField;
     }
 }

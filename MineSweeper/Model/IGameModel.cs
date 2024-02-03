@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MineSweeper.View;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,5 +11,6 @@ namespace MineSweeper.Model
     {
         void NewGame();
         SharedStructs.Field[,] GetFields();
+        void MarkField(int row, int column);
     }
 }

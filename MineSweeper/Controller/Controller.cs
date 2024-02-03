@@ -10,17 +10,28 @@ namespace MineSweeper.Controller
     public class Controller : ApplicationContext
     {
         private View.IMainView mainView;
-
+        private Model.IGameModel gameModel;
         public Controller()
         {
-            mainView = new View.MainWindow();
-            mainView.OnWindowClosing += CloseApplication;
+            gameModel = new Model.GameModel();
+            gameModel.NewGame();
+
+            mainView = new View.MainWindow(gameModel);
+            mainView.OnWindowClosing += mainView_OnWindowClosing;
+            mainView.OnMarkField += mainView_OnMarkField;
             mainView.Show();
+            mainView.UpdateView();
         }
 
-        private void CloseApplication()
+        private void mainView_OnWindowClosing()
         {
             Application.Exit();
+        }
+
+        private void mainView_OnMarkField(int row, int column)
+        {
+            gameModel.MarkField(row, column);
+            mainView.UpdateView();
         }
     }
 }

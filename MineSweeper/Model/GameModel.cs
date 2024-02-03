@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,6 +16,8 @@ namespace MineSweeper.Model
 
         private byte remainingMines;
         private TimeSpan elapsedTime;
+
+        public Settings Settings { get { return settings; } }
 
         public GameModel()
         {
@@ -48,7 +51,33 @@ namespace MineSweeper.Model
         public SharedStructs.Field[,] GetFields()
         {
             SharedStructs.Field[,] newFileds = new SharedStructs.Field[fields.GetLength(0), fields.GetLength(1)];
+
+            for (int r = 0; r < fields.GetLength(0); r++) {
+                for (int c = 0; c < fields.GetLength(1); c++) {
+                    SharedStructs.FiledState newState = SharedStructs.FiledState.COVERED;
+                    switch (fields[r, c].State)
+                    {
+                        case FieldState.MARKED: { newState = SharedStructs.FiledState.MARKED; break; }
+                        case FieldState.CLEARED: {
+                                if (fields[r, c].IsMine)
+                                    newState = SharedStructs.FiledState.MINE;
+                                else
+                                    newState = SharedStructs.FiledState.CLEARED;
+                                break; 
+                            }
+                    }
+                    newFileds[r, c] = new SharedStructs.Field(newState, 0);
+                }
+            }
             return newFileds;
+        }
+
+        public void MarkField(int row, int column)
+        {
+            if (fields[row, column].State == FieldState.COVERED)
+                fields[row, column].State = FieldState.MARKED;
+            else if(fields[row, column].State == FieldState.MARKED)
+                fields[row, column].State = FieldState.COVERED;
         }
     }
 }

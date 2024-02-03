@@ -11,13 +11,13 @@ namespace MineSweeper.Model
     {
         COVERED,
         MARKED,
-        OPENED
+        CLEARED
     }
 
     [Serializable]
     public class Field
     {
-        public bool IsMine;
+        public bool IsMine; // indicates whether this field contains a mine
         public FieldState State;
 
         public Field()

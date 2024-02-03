@@ -9,14 +9,15 @@ namespace MineSweeper.SharedStructs
     public enum FiledState
     {
         COVERED,
-        OPENED,
-        MARKED
+        CLEARED,
+        MARKED,
+        MINE
     }
     public struct Field
     {
         private FiledState state;
 
-        // Value: 0-8: number of bombs around; 9: this field contains a bomb
+        // Value: 0-8: number of mines around
         // Value is also 0 if this field hasn't been revealed yet
         private byte value;
 
