@@ -39,7 +39,7 @@
             this.saveGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.lbRemainingMines = new System.Windows.Forms.Label();
-            this.lbTime = new System.Windows.Forms.Label();
+            this.lbElapsedTime = new System.Windows.Forms.Label();
             this.mineZone1 = new MineSweeper.View.MineZone.MineZone();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -147,13 +147,13 @@
             // 
             // lbTime
             // 
-            this.lbTime.AutoSize = true;
-            this.lbTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbTime.Location = new System.Drawing.Point(279, 59);
-            this.lbTime.Name = "lbTime";
-            this.lbTime.Size = new System.Drawing.Size(103, 39);
-            this.lbTime.TabIndex = 4;
-            this.lbTime.Text = "00:00";
+            this.lbElapsedTime.AutoSize = true;
+            this.lbElapsedTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbElapsedTime.Location = new System.Drawing.Point(279, 59);
+            this.lbElapsedTime.Name = "lbTime";
+            this.lbElapsedTime.Size = new System.Drawing.Size(103, 39);
+            this.lbElapsedTime.TabIndex = 4;
+            this.lbElapsedTime.Text = "00:00";
             // 
             // mineZone1
             // 
@@ -170,7 +170,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(394, 541);
-            this.Controls.Add(this.lbTime);
+            this.Controls.Add(this.lbElapsedTime);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.menuStrip1);
             this.DoubleBuffered = true;
@@ -205,7 +205,7 @@
         private System.Windows.Forms.ToolStripMenuItem saveGameToolStripMenuItem;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private MineZone.MineZone mineZone1;
-        private System.Windows.Forms.Label lbTime;
+        private System.Windows.Forms.Label lbElapsedTime;
         private System.Windows.Forms.Label lbRemainingMines;
     }
 }

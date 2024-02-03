@@ -5,9 +5,12 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace MineSweeper.Model
 {
+    
+
     [Serializable]
     public class GameModel : IGameModel
     {
@@ -15,8 +18,11 @@ namespace MineSweeper.Model
         private Settings settings;
         private Field[,] fields; // [row, column]
 
-        private byte remainingMines;
-        private TimeSpan elapsedTime;
+        private int remainingMines;
+        private Timer timer;
+        private long elapsedSeconds;
+
+        public event TimeElapsedEventHandler OnTimeElapsed;
 
         public Settings Settings { get { return settings; } }
 
@@ -25,6 +31,15 @@ namespace MineSweeper.Model
             random = new Random();
             settings = new Settings();
             fields = new Field[0,0];
+            timer = new Timer();
+            timer.Interval = 1000;
+            timer.Elapsed += Timer_Elapsed;
+        }
+
+        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            elapsedSeconds++;
+            OnTimeElapsed();
         }
 
         public void NewGame()
@@ -51,6 +66,22 @@ namespace MineSweeper.Model
             for (int r = 0; r < fields.GetLength(0); r++)
                 for (int c = 0; c < fields.GetLength(1); c++)
                     fields[r, c].MinesAround = CountMinesAroundField(r, c);
+
+            remainingMines = settings.NumberOfMines;
+            elapsedSeconds = 0;
+
+            timer.Start();
+        }
+
+        public string GetElapsedTime()
+        {
+            TimeSpan elapsedTime = TimeSpan.FromSeconds(elapsedSeconds);
+            return elapsedTime.Minutes.ToString("d2") + ":" + elapsedTime.Seconds.ToString("d2");
+        }
+
+        public int GetRemainingMines()
+        {
+            return remainingMines;
         }
 
         public SharedStructs.Field[,] GetFields()
@@ -112,10 +143,14 @@ namespace MineSweeper.Model
 
         public void MarkField(int row, int col)
         {
-            if (fields[row, col].State == FieldState.COVERED)
+            if (fields[row, col].State == FieldState.COVERED && remainingMines > 0){
                 fields[row, col].State = FieldState.MARKED;
-            else if(fields[row, col].State == FieldState.MARKED)
+                remainingMines--;
+            }
+            else if (fields[row, col].State == FieldState.MARKED){
                 fields[row, col].State = FieldState.COVERED;
+                remainingMines++;
+            }
         }
 
         public void RevealField(int row, int col)

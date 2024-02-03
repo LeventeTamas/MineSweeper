@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace MineSweeper.Model
 {
+    public delegate void TimeElapsedEventHandler();
     public interface IGameModel
     {
         void NewGame();
@@ -14,5 +15,8 @@ namespace MineSweeper.Model
         void MarkField(int row, int col);
         void RevealField(int row, int col);
         void ClearFieldsAround(int row, int col);
+        string GetElapsedTime();
+        int GetRemainingMines();
+        event TimeElapsedEventHandler OnTimeElapsed;
     }
 }

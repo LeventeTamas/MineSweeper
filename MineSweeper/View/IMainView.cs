@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace MineSweeper.View
 {
@@ -14,6 +15,8 @@ namespace MineSweeper.View
     { 
         void Show();
         void UpdateView();
+        void UpdateTime();
+        object Invoke(Delegate method);
         event WindowClosingEventHandler OnWindowClosing;
         event MarkFieldEventHandler OnMarkField;
         event RevealFieldEventHandler OnRevealField;

@@ -22,7 +22,6 @@ namespace MineSweeper.View
         public event RevealFieldEventHandler OnRevealField;
         public event ClearFieldsAroundEventHandler OnClearFieldsAround;
 
-
         public MainWindow(Model.IGameModel gameModel)
         {
             this.gameModel = gameModel;
@@ -77,6 +76,16 @@ namespace MineSweeper.View
             }
 
             mineZone1.SetFileds(mineZoneFields);
+
+            // Update 'remaining mines' label
+            lbRemainingMines.Text = gameModel.GetRemainingMines().ToString("d2");
+
+            
+        }
+        public void UpdateTime()
+        {
+            // Update 'elapsed time' label
+            lbElapsedTime.Text = gameModel.GetElapsedTime();
         }
 
         #region events
@@ -89,7 +98,7 @@ namespace MineSweeper.View
         {
             OnRevealField(row, col);
         }
-        #endregion
+        
         private void mineZone1_ClearFieldsAround(int row, int col)
         {
             OnClearFieldsAround(row, col);
@@ -99,5 +108,6 @@ namespace MineSweeper.View
         {
             OnWindowClosing();
         }
+        #endregion
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace MineSweeper.Controller
 {
@@ -14,6 +15,7 @@ namespace MineSweeper.Controller
         public Controller()
         {
             gameModel = new Model.GameModel();
+            gameModel.OnTimeElapsed += gameModel_OnTimeElapsed;
             gameModel.NewGame();
 
             mainView = new View.MainWindow(gameModel);
@@ -23,6 +25,15 @@ namespace MineSweeper.Controller
             mainView.OnClearFieldsAround += mainView_OnClearFieldsAround;
             mainView.Show();
             mainView.UpdateView();
+        }
+
+        private void gameModel_OnTimeElapsed()
+        {
+            if (mainView == null) return;
+            mainView.Invoke(new MethodInvoker(delegate
+            {
+                mainView.UpdateTime();
+            }));
         }
 
         private void mainView_OnWindowClosing()
