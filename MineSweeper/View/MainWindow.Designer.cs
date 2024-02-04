@@ -31,18 +31,20 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pauseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.newGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.lbRemainingMines = new System.Windows.Forms.Label();
-            this.lbElapsedTime = new System.Windows.Forms.Label();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.newGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveGameToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.lbRemainingMines = new System.Windows.Forms.Label();
             this.mineZone1 = new MineSweeper.View.MineZone.MineZone();
+            this.lbElapsedTime = new System.Windows.Forms.Label();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -83,6 +85,11 @@
             this.pauseToolStripMenuItem.Text = "Pause";
             this.pauseToolStripMenuItem.Click += new System.EventHandler(this.pauseToolStripMenuItem_Click);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            // 
             // newGameToolStripMenuItem
             // 
             this.newGameToolStripMenuItem.Name = "newGameToolStripMenuItem";
@@ -90,11 +97,35 @@
             this.newGameToolStripMenuItem.Text = "New Game";
             this.newGameToolStripMenuItem.Click += new System.EventHandler(this.newGameToolStripMenuItem_Click);
             // 
+            // loadGameToolStripMenuItem
+            // 
+            this.loadGameToolStripMenuItem.Name = "loadGameToolStripMenuItem";
+            this.loadGameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadGameToolStripMenuItem.Text = "Load Game...";
+            this.loadGameToolStripMenuItem.Click += new System.EventHandler(this.loadGameToolStripMenuItem_Click);
+            // 
+            // saveGameToolStripMenuItem1
+            // 
+            this.saveGameToolStripMenuItem1.Name = "saveGameToolStripMenuItem1";
+            this.saveGameToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.saveGameToolStripMenuItem1.Text = "Save Game...";
+            this.saveGameToolStripMenuItem1.Click += new System.EventHandler(this.saveGameToolStripMenuItem1_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(177, 6);
+            // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.settingsToolStripMenuItem.Text = "Settings...";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
             // 
             // exitToolStripMenuItem
             // 
@@ -133,6 +164,15 @@
             this.lbRemainingMines.TabIndex = 3;
             this.lbRemainingMines.Text = "00";
             // 
+            // mineZone1
+            // 
+            this.mineZone1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mineZone1.Location = new System.Drawing.Point(0, 0);
+            this.mineZone1.Name = "mineZone1";
+            this.mineZone1.Size = new System.Drawing.Size(394, 398);
+            this.mineZone1.TabIndex = 0;
+            this.mineZone1.Text = "mineZone1";
+            // 
             // lbElapsedTime
             // 
             this.lbElapsedTime.AutoSize = true;
@@ -143,41 +183,14 @@
             this.lbElapsedTime.TabIndex = 4;
             this.lbElapsedTime.Text = "00:00";
             // 
-            // toolStripSeparator1
+            // saveFileDialog1
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.saveFileDialog1.Filter = "MineSweeper files|*.mine";
             // 
-            // toolStripSeparator2
+            // openFileDialog1
             // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
-            // 
-            // loadGameToolStripMenuItem
-            // 
-            this.loadGameToolStripMenuItem.Name = "loadGameToolStripMenuItem";
-            this.loadGameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.loadGameToolStripMenuItem.Text = "Load Game...";
-            // 
-            // saveGameToolStripMenuItem1
-            // 
-            this.saveGameToolStripMenuItem1.Name = "saveGameToolStripMenuItem1";
-            this.saveGameToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.saveGameToolStripMenuItem1.Text = "Save Game...";
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(177, 6);
-            // 
-            // mineZone1
-            // 
-            this.mineZone1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mineZone1.Location = new System.Drawing.Point(0, 0);
-            this.mineZone1.Name = "mineZone1";
-            this.mineZone1.Size = new System.Drawing.Size(394, 398);
-            this.mineZone1.TabIndex = 0;
-            this.mineZone1.Text = "mineZone1";
+            this.openFileDialog1.FileName = "openFileDialog1";
+            this.openFileDialog1.Filter = "MineSweeper files|*.mine";
             // 
             // MainWindow
             // 
@@ -224,6 +237,8 @@
         private System.Windows.Forms.ToolStripMenuItem saveGameToolStripMenuItem1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
     }
 }
 

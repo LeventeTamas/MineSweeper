@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
@@ -12,12 +13,14 @@ namespace MineSweeper.Controller
     {
         private View.IMainView mainView;
         private Model.IGameModel gameModel;
+        private System.Timers.Timer timer;
+
         public Controller()
         {
+            
+
             gameModel = new Model.GameModel();
-            gameModel.OnTimeElapsed += gameModel_OnTimeElapsed;
-            gameModel.OnLoseGame += gameModel_OnLoseGame;
-            gameModel.OnWinGame += gameModel_OnWinGame;
+            RegisterGameModelEvents();
 
             mainView = new View.MainWindow(gameModel);
             mainView.OnWindowClosing += mainView_OnWindowClosing;
@@ -26,9 +29,22 @@ namespace MineSweeper.Controller
             mainView.OnClearFieldsAround += mainView_OnClearFieldsAround;
             mainView.OnNewGame += mainView_OnNewGame;
             mainView.OnPauseGame += mainView_OnPauseGame;
+            mainView.OnSaveGame += mainView_OnSaveGame;
+            mainView.OnLoadSavedGame += mainView_OnLoadSavedGame;
+
             mainView.Show();
 
+            timer = new System.Timers.Timer();
+            timer.Interval = 1000;
+            timer.Elapsed += timer_OnElapsed;
+
             StartNewGame();
+        }
+
+        private void RegisterGameModelEvents()
+        {
+            gameModel.OnLoseGame += gameModel_OnLoseGame;
+            gameModel.OnWinGame += gameModel_OnWinGame;
         }
 
         private void StartNewGame()
@@ -36,17 +52,22 @@ namespace MineSweeper.Controller
             gameModel.CreateNewGame();
             gameModel.StartGame();
             mainView.UpdateView();
+
+            timer.Start();
         }
 
         #region gameModel events
-        private void gameModel_OnTimeElapsed()
+        private void timer_OnElapsed(object o, EventArgs e)
         {
+            gameModel.TimerTick();
+
             if (mainView == null) return;
             mainView.Invoke(new MethodInvoker(delegate
             {
                 mainView.UpdateTime();
             }));
         }
+
         private void gameModel_OnLoseGame()
         {
             mainView.UpdateView();
@@ -92,9 +113,33 @@ namespace MineSweeper.Controller
         {
             SharedStructs.GameState gameState = gameModel.GetGameState();
             switch (gameState) {
-                case SharedStructs.GameState.ONGOING: { gameModel.PauseGame(); break; }
-                case SharedStructs.GameState.PAUSED: { gameModel.StartGame(); break; }
+                case SharedStructs.GameState.ONGOING: { 
+                        gameModel.PauseGame(); 
+                        timer.Stop(); 
+                        break; 
+                    }
+                case SharedStructs.GameState.PAUSED: { 
+                        gameModel.StartGame(); 
+                        timer.Start(); 
+                        break; 
+                    }
             }
+            mainView.UpdateView();
+        }
+
+        private void mainView_OnSaveGame(string path)
+        {
+            Model.IOUtility.SaveIGameModel(path, gameModel);
+        }
+
+        private void mainView_OnLoadSavedGame(string path)
+        {
+            gameModel = Model.IOUtility.LoadIGameModel(path);
+
+            RegisterGameModelEvents();
+            gameModel.StartGame();
+
+            mainView.SetGameModel(gameModel);
             mainView.UpdateView();
         }
 

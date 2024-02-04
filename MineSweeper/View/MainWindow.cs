@@ -1,4 +1,5 @@
-﻿using MineSweeper.View.MineZone;
+﻿using MineSweeper.Model;
+using MineSweeper.View.MineZone;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,6 +24,8 @@ namespace MineSweeper.View
         public event ClearFieldsAroundEventHandler OnClearFieldsAround;
         public event NewGameEventHandler OnNewGame;
         public event PauseGameEventHandler OnPauseGame;
+        public event SaveGameEventHandler OnSaveGame;
+        public event LoadSavedGameEventHandler OnLoadSavedGame;
 
         public MainWindow(Model.IGameModel gameModel)
         {
@@ -33,6 +36,11 @@ namespace MineSweeper.View
             mineZone1.OnMarkField += mineZone1_MarkField;
             mineZone1.OnRevealField += mineZone1_RevealField;
             mineZone1.OnClearFieldsAround += mineZone1_ClearFieldsAround;
+        }
+
+        public void SetGameModel(IGameModel gameModel)
+        {
+            this.gameModel = gameModel;
         }
 
         public void UpdateView()
@@ -163,6 +171,20 @@ namespace MineSweeper.View
         private void pauseToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OnPauseGame();
+        }
+        
+        private void saveGameToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK){
+                OnSaveGame(saveFileDialog1.FileName);
+            }
+        }
+
+        private void loadGameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog1.ShowDialog() == DialogResult.OK){
+                OnLoadSavedGame(openFileDialog1.FileName);
+            }
         }
         #endregion
     }

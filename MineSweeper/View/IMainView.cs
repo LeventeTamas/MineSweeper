@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MineSweeper.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,8 @@ namespace MineSweeper.View
     public delegate void ClearFieldsAroundEventHandler(int row, int col);
     public delegate void NewGameEventHandler();
     public delegate void PauseGameEventHandler();
+    public delegate void SaveGameEventHandler(string path);
+    public delegate void LoadSavedGameEventHandler(string path);
     public interface IMainView
     {
         event WindowClosingEventHandler OnWindowClosing;
@@ -21,6 +24,10 @@ namespace MineSweeper.View
         event ClearFieldsAroundEventHandler OnClearFieldsAround;
         event NewGameEventHandler OnNewGame;
         event PauseGameEventHandler OnPauseGame;
+        event SaveGameEventHandler OnSaveGame;
+        event LoadSavedGameEventHandler OnLoadSavedGame;
+
+        void SetGameModel(IGameModel gameModel);
         void Show();
         void UpdateView();
         void UpdateTime();

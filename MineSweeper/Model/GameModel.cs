@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -25,12 +26,12 @@ namespace MineSweeper.Model
         private Field[,] fields; // [row, column]
 
         private int remainingMines;
-        private Timer timer;
         private long elapsedSeconds;
         private GameState gameState;
 
-        public event TimeElapsedEventHandler OnTimeElapsed;
+        [field: NonSerialized]
         public event LoseGameEventHandler OnLoseGame;
+        [field: NonSerialized]
         public event WinGameEventHandler OnWinGame;
 
         public Settings Settings { get { return settings; } }
@@ -40,16 +41,13 @@ namespace MineSweeper.Model
             random = new Random();
             settings = new Settings();
             fields = new Field[0,0];
-            timer = new Timer();
-            timer.Interval = 1000;
-            timer.Elapsed += Timer_Elapsed;
             gameState = GameState.STOPPED;
         }
 
-        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        public void TimerTick()
         {
-            elapsedSeconds++;
-            OnTimeElapsed();
+            if(gameState == GameState.ONGOING)
+                elapsedSeconds++;
         }
 
         public void CreateNewGame()
@@ -84,18 +82,15 @@ namespace MineSweeper.Model
         public void StartGame()
         {
             gameState = GameState.ONGOING;
-            timer.Start();
         }
 
         public void PauseGame()
         {
-            timer.Stop();
             gameState = GameState.PAUSED;
         }
 
         public void StopGame()
         {
-            timer.Stop();
             gameState = GameState.STOPPED;
         }
 
@@ -267,5 +262,6 @@ namespace MineSweeper.Model
             // event call: Notify player
             OnWinGame();
         }
+
     }
 }

@@ -51,6 +51,7 @@
     <Compile Include="Model\Field.cs" />
     <Compile Include="Model\GameModel.cs" />
     <Compile Include="Model\IGameModel.cs" />
+    <Compile Include="Model\IOUtility.cs" />
     <Compile Include="Model\Settings.cs" />
     <Compile Include="SharedStructs\Field.cs" />
     <Compile Include="SharedStructs\GameState.cs" />

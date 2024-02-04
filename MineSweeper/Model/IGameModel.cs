@@ -1,23 +1,23 @@
 ﻿using MineSweeper.View;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MineSweeper.Model
 {
-    public delegate void TimeElapsedEventHandler();
     public delegate void LoseGameEventHandler();
     public delegate void WinGameEventHandler();
 
     public interface IGameModel
     {
-        event TimeElapsedEventHandler OnTimeElapsed;
         event LoseGameEventHandler OnLoseGame;
         event WinGameEventHandler OnWinGame;
 
         // Inputs
+        void TimerTick();
         void CreateNewGame();
         void StartGame();
         void PauseGame();
