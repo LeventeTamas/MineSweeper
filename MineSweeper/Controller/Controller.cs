@@ -23,6 +23,7 @@ namespace MineSweeper.Controller
             mainView.OnMarkField += mainView_OnMarkField;
             mainView.OnRevealField += mainView_OnRevealField;
             mainView.OnClearFieldsAround += mainView_OnClearFieldsAround;
+            mainView.OnNewGame += mainView_OnNewGame;
             mainView.Show();
             mainView.UpdateView();
         }
@@ -57,6 +58,13 @@ namespace MineSweeper.Controller
         {
             gameModel.ClearFieldsAround(row, col);
             mainView.UpdateView();
+        }
+
+        private void mainView_OnNewGame()
+        {
+            gameModel.NewGame();
+            mainView.UpdateView();
+            mainView.UpdateTime();
         }
     }
 }

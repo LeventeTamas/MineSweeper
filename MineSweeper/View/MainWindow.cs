@@ -21,6 +21,7 @@ namespace MineSweeper.View
         public event MarkFieldEventHandler OnMarkField;
         public event RevealFieldEventHandler OnRevealField;
         public event ClearFieldsAroundEventHandler OnClearFieldsAround;
+        public event NewGameEventHandler OnNewGame;
 
         public MainWindow(Model.IGameModel gameModel)
         {
@@ -80,7 +81,11 @@ namespace MineSweeper.View
             // Update 'remaining mines' label
             lbRemainingMines.Text = gameModel.GetRemainingMines().ToString("d2");
 
-            
+            // Update 'elapsed time' label
+            UpdateTime();
+
+            // Update 'Pause' menu item state
+
         }
         public void UpdateTime()
         {
@@ -107,6 +112,21 @@ namespace MineSweeper.View
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
             OnWindowClosing();
+        }
+
+        private void newGameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OnNewGame();
+        }
+        
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+        
+        private void pauseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
         #endregion
     }

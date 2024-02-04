@@ -21,6 +21,7 @@ namespace MineSweeper.Model
         private int remainingMines;
         private Timer timer;
         private long elapsedSeconds;
+        private bool IsGamePaused;
 
         public event TimeElapsedEventHandler OnTimeElapsed;
 
@@ -34,6 +35,7 @@ namespace MineSweeper.Model
             timer = new Timer();
             timer.Interval = 1000;
             timer.Elapsed += Timer_Elapsed;
+            IsGamePaused = false;
         }
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
@@ -161,7 +163,7 @@ namespace MineSweeper.Model
 
                 // If it was a mine, then it's a Game Over
                 if (fields[row, col].IsMine){
-                    ;//LoseGame();
+                    LoseGame();
                     return;
                 }
 
@@ -201,6 +203,11 @@ namespace MineSweeper.Model
                 }
                     
             }
+        }
+
+        private void LoseGame()
+        {
+            timer.Stop();
         }
     }
 }
