@@ -9,11 +9,17 @@ using System.Timers;
 
 namespace MineSweeper.Model
 {
-    
 
     [Serializable]
     public class GameModel : IGameModel
     {
+        private enum GameState
+        {
+            ONGOING,
+            PAUSED,
+            STOPPED
+        }
+
         private Random random;
         private Settings settings;
         private Field[,] fields; // [row, column]
@@ -21,9 +27,11 @@ namespace MineSweeper.Model
         private int remainingMines;
         private Timer timer;
         private long elapsedSeconds;
-        private bool IsGamePaused;
+        private GameState gameState;
 
         public event TimeElapsedEventHandler OnTimeElapsed;
+        public event LoseGameEventHandler OnLoseGame;
+        public event WinGameEventHandler OnWinGame;
 
         public Settings Settings { get { return settings; } }
 
@@ -35,7 +43,7 @@ namespace MineSweeper.Model
             timer = new Timer();
             timer.Interval = 1000;
             timer.Elapsed += Timer_Elapsed;
-            IsGamePaused = false;
+            gameState = GameState.STOPPED;
         }
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
@@ -44,7 +52,7 @@ namespace MineSweeper.Model
             OnTimeElapsed();
         }
 
-        public void NewGame()
+        public void CreateNewGame()
         {
             fields = new Field[settings.NumberOfRows, settings.NumOfColumns];
 
@@ -71,8 +79,24 @@ namespace MineSweeper.Model
 
             remainingMines = settings.NumberOfMines;
             elapsedSeconds = 0;
+        }
 
+        public void StartGame()
+        {
+            gameState = GameState.ONGOING;
             timer.Start();
+        }
+
+        public void PauseGame()
+        {
+            timer.Stop();
+            gameState = GameState.PAUSED;
+        }
+
+        public void StopGame()
+        {
+            timer.Stop();
+            gameState = GameState.STOPPED;
         }
 
         public string GetElapsedTime()
@@ -109,6 +133,20 @@ namespace MineSweeper.Model
                 }
             }
             return newFileds;
+        }
+
+        public SharedStructs.GameState GetGameState()
+        {
+            // Convert GameState to SharedStructs.GameState
+            switch (gameState)
+            {
+                case GameState.PAUSED: 
+                    return SharedStructs.GameState.PAUSED; 
+                case GameState.STOPPED: 
+                    return SharedStructs.GameState.STOPPED;
+                default:
+                    return SharedStructs.GameState.ONGOING;
+            }
         }
 
         private byte CountMinesAroundField(int row, int col)
@@ -161,9 +199,19 @@ namespace MineSweeper.Model
                 // Set this field to revealed
                 fields[row, col].State = FieldState.REVEALED;
 
-                // If it was a mine, then it's a Game Over
+                // If it was a mine, then the player lose
                 if (fields[row, col].IsMine){
                     LoseGame();
+                    return;
+                }
+
+                // Check if the player won the game
+                // If the number of unrevealed fields are equal to the number of mines
+                int numOfUnrevealed = (from Field field in fields 
+                                       where field.State != FieldState.REVEALED
+                                       select field).Count();
+                if(numOfUnrevealed == Settings.NumberOfMines){
+                    WinGame();
                     return;
                 }
 
@@ -207,7 +255,17 @@ namespace MineSweeper.Model
 
         private void LoseGame()
         {
-            timer.Stop();
+            StopGame();
+
+            // event call: Notify player
+            OnLoseGame();
+        }
+        private void WinGame()
+        {
+            StopGame();
+
+            // event call: Notify player
+            OnWinGame();
         }
     }
 }

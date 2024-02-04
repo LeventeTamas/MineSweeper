@@ -16,7 +16,8 @@ namespace MineSweeper.Controller
         {
             gameModel = new Model.GameModel();
             gameModel.OnTimeElapsed += gameModel_OnTimeElapsed;
-            gameModel.NewGame();
+            gameModel.OnLoseGame += gameModel_OnLoseGame;
+            gameModel.OnWinGame += gameModel_OnWinGame;
 
             mainView = new View.MainWindow(gameModel);
             mainView.OnWindowClosing += mainView_OnWindowClosing;
@@ -24,10 +25,20 @@ namespace MineSweeper.Controller
             mainView.OnRevealField += mainView_OnRevealField;
             mainView.OnClearFieldsAround += mainView_OnClearFieldsAround;
             mainView.OnNewGame += mainView_OnNewGame;
+            mainView.OnPauseGame += mainView_OnPauseGame;
             mainView.Show();
+
+            StartNewGame();
+        }
+
+        private void StartNewGame()
+        {
+            gameModel.CreateNewGame();
+            gameModel.StartGame();
             mainView.UpdateView();
         }
 
+        #region gameModel events
         private void gameModel_OnTimeElapsed()
         {
             if (mainView == null) return;
@@ -36,7 +47,19 @@ namespace MineSweeper.Controller
                 mainView.UpdateTime();
             }));
         }
+        private void gameModel_OnLoseGame()
+        {
+            mainView.UpdateView();
+            mainView.LoseGame();
+        }
+        private void gameModel_OnWinGame()
+        {
+            mainView.UpdateView();
+            mainView.WinGame();
+        }
+        #endregion
 
+        #region mainView events
         private void mainView_OnWindowClosing()
         {
             Application.Exit();
@@ -62,9 +85,19 @@ namespace MineSweeper.Controller
 
         private void mainView_OnNewGame()
         {
-            gameModel.NewGame();
-            mainView.UpdateView();
-            mainView.UpdateTime();
+            StartNewGame();
         }
+
+        private void mainView_OnPauseGame()
+        {
+            SharedStructs.GameState gameState = gameModel.GetGameState();
+            switch (gameState) {
+                case SharedStructs.GameState.ONGOING: { gameModel.PauseGame(); break; }
+                case SharedStructs.GameState.PAUSED: { gameModel.StartGame(); break; }
+            }
+            mainView.UpdateView();
+        }
+
+        #endregion
     }
 }

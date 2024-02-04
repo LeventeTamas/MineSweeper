@@ -22,6 +22,7 @@ namespace MineSweeper.View
         public event RevealFieldEventHandler OnRevealField;
         public event ClearFieldsAroundEventHandler OnClearFieldsAround;
         public event NewGameEventHandler OnNewGame;
+        public event PauseGameEventHandler OnPauseGame;
 
         public MainWindow(Model.IGameModel gameModel)
         {
@@ -84,13 +85,48 @@ namespace MineSweeper.View
             // Update 'elapsed time' label
             UpdateTime();
 
-            // Update 'Pause' menu item state
+            SharedStructs.GameState gameState = gameModel.GetGameState();
+            switch(gameState)
+            {
+                case SharedStructs.GameState.ONGOING:
+                    {
+                        mineZone1.Enabled = true;
+                        pauseToolStripMenuItem.Enabled = true;
+                        pauseToolStripMenuItem.Checked = false;
+                        break;
+                    }
+                case SharedStructs.GameState.PAUSED:
+                    {
+                        mineZone1.Enabled= false;
+                        pauseToolStripMenuItem.Enabled = true;
+                        pauseToolStripMenuItem.Checked = true;
+                        break;
+                    }
+                case SharedStructs.GameState.STOPPED:
+                    {
+                        mineZone1.Enabled = false;
+                        pauseToolStripMenuItem.Checked = false;
+                        pauseToolStripMenuItem.Enabled = false;
+                        break;
+                    }
+            }
 
         }
+        
         public void UpdateTime()
         {
             // Update 'elapsed time' label
             lbElapsedTime.Text = gameModel.GetElapsedTime();
+        }
+
+        public void LoseGame()
+        {
+            MessageBox.Show("You Lose!");
+        }
+
+        public void WinGame()
+        {
+            MessageBox.Show("You Won!");
         }
 
         #region events
@@ -126,7 +162,7 @@ namespace MineSweeper.View
         
         private void pauseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            OnPauseGame();
         }
         #endregion
     }

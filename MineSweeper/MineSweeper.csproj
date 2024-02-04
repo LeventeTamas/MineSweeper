@@ -53,6 +53,7 @@
     <Compile Include="Model\IGameModel.cs" />
     <Compile Include="Model\Settings.cs" />
     <Compile Include="SharedStructs\Field.cs" />
+    <Compile Include="SharedStructs\GameState.cs" />
     <Compile Include="View\IMainView.cs" />
     <Compile Include="View\MainWindow.cs">
       <SubType>Form</SubType>

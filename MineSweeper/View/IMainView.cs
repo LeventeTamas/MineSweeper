@@ -12,6 +12,7 @@ namespace MineSweeper.View
     public delegate void RevealFieldEventHandler(int row, int col);
     public delegate void ClearFieldsAroundEventHandler(int row, int col);
     public delegate void NewGameEventHandler();
+    public delegate void PauseGameEventHandler();
     public interface IMainView
     {
         event WindowClosingEventHandler OnWindowClosing;
@@ -19,9 +20,12 @@ namespace MineSweeper.View
         event RevealFieldEventHandler OnRevealField;
         event ClearFieldsAroundEventHandler OnClearFieldsAround;
         event NewGameEventHandler OnNewGame;
+        event PauseGameEventHandler OnPauseGame;
         void Show();
         void UpdateView();
         void UpdateTime();
+        void LoseGame();
+        void WinGame();
         object Invoke(Delegate method);
 
     }
