@@ -130,12 +130,24 @@ namespace MineSweeper.View
 
         public void LoseGame()
         {
-            MessageBox.Show("You Lose!");
+            GameOverMessageBox gameOverMessageBox = new GameOverMessageBox("You have activated a mine. You lost!");
+            DialogResult result = gameOverMessageBox.ShowDialog();
+
+            if (result == DialogResult.Yes)
+                OnNewGame();
+            else if(result == DialogResult.Retry)
+                OnRestartGame();
         }
 
         public void WinGame()
         {
-            MessageBox.Show("You Won!");
+            GameOverMessageBox gameOverMessageBox = new GameOverMessageBox("You have cleared all fields. You won!");
+            DialogResult result = gameOverMessageBox.ShowDialog();
+
+            if (result == DialogResult.Yes)
+                OnNewGame();
+            else if (result == DialogResult.Retry)
+                OnRestartGame();
         }
 
         #region events

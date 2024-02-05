@@ -14,9 +14,9 @@ namespace MineSweeper.Model
         public int NumberOfMines { get; set; }
 
         public Settings() { 
-            NumOfColumns = 20;
+            NumOfColumns = 10;
             NumberOfRows = 10;
-            NumberOfMines = 25;
+            NumberOfMines = 15;
         }
 
         public Settings(int numberOfColumns, int numberOfRows, int numberOfMines)

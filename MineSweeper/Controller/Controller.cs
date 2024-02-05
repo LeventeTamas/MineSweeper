@@ -84,6 +84,7 @@ namespace MineSweeper.Controller
         #region mainView events
         private void mainView_OnWindowClosing()
         {
+            timer.Stop();
             Application.Exit();
         }
 
