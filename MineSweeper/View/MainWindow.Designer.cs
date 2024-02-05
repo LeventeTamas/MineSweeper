@@ -45,6 +45,7 @@
             this.lbElapsedTime = new System.Windows.Forms.Label();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.restartGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -68,6 +69,7 @@
             this.pauseToolStripMenuItem,
             this.toolStripSeparator1,
             this.newGameToolStripMenuItem,
+            this.restartGameToolStripMenuItem,
             this.loadGameToolStripMenuItem,
             this.saveGameToolStripMenuItem1,
             this.toolStripSeparator3,
@@ -192,6 +194,13 @@
             this.openFileDialog1.FileName = "openFileDialog1";
             this.openFileDialog1.Filter = "MineSweeper files|*.mine";
             // 
+            // restartGameToolStripMenuItem
+            // 
+            this.restartGameToolStripMenuItem.Name = "restartGameToolStripMenuItem";
+            this.restartGameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.restartGameToolStripMenuItem.Text = "Restart Game";
+            this.restartGameToolStripMenuItem.Click += new System.EventHandler(this.restartGameToolStripMenuItem_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -239,6 +248,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.ToolStripMenuItem restartGameToolStripMenuItem;
     }
 }
 

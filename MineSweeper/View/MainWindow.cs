@@ -26,6 +26,7 @@ namespace MineSweeper.View
         public event PauseGameEventHandler OnPauseGame;
         public event SaveGameEventHandler OnSaveGame;
         public event LoadSavedGameEventHandler OnLoadSavedGame;
+        public event RestartGameEventHandler OnRestartGame;
 
         public MainWindow(Model.IGameModel gameModel)
         {
@@ -186,6 +187,12 @@ namespace MineSweeper.View
                 OnLoadSavedGame(openFileDialog1.FileName);
             }
         }
+
+        private void restartGameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OnRestartGame();
+        }
         #endregion
+
     }
 }

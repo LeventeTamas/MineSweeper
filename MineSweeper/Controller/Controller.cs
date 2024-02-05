@@ -31,6 +31,7 @@ namespace MineSweeper.Controller
             mainView.OnPauseGame += mainView_OnPauseGame;
             mainView.OnSaveGame += mainView_OnSaveGame;
             mainView.OnLoadSavedGame += mainView_OnLoadSavedGame;
+            mainView.OnRestartGame += mainView_OnRestartGame;
 
             mainView.Show();
 
@@ -137,12 +138,26 @@ namespace MineSweeper.Controller
             gameModel = Model.IOUtility.LoadIGameModel(path);
 
             RegisterGameModelEvents();
-            gameModel.StartGame();
+
+            SharedStructs.GameState gameState = gameModel.GetGameState();
+            switch (gameState) {
+                case SharedStructs.GameState.STOPPED: { timer.Stop(); break; }
+                case SharedStructs.GameState.PAUSED: { timer.Stop(); break; }
+                case SharedStructs.GameState.ONGOING: { timer.Start(); break; }
+            }
 
             mainView.SetGameModel(gameModel);
             mainView.UpdateView();
         }
 
+        private void mainView_OnRestartGame()
+        {
+            gameModel.ResetGame();
+            gameModel.StartGame();
+            mainView.UpdateView();
+            timer.Start();
+
+        }
         #endregion
     }
 }

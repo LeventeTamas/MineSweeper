@@ -19,6 +19,7 @@ namespace MineSweeper.Model
         // Inputs
         void TimerTick();
         void CreateNewGame();
+        void ResetGame();
         void StartGame();
         void PauseGame();
         void StopGame();

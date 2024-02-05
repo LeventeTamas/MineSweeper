@@ -79,6 +79,17 @@ namespace MineSweeper.Model
             elapsedSeconds = 0;
         }
 
+        public void ResetGame()
+        {
+            remainingMines = settings.NumberOfMines;
+            elapsedSeconds = 0;
+
+            // Reset fields
+            for (int r = 0; r < fields.GetLength(0); r++)
+                for (int c = 0; c < fields.GetLength(1); c++)
+                    fields[r, c].State = FieldState.COVERED;
+        }
+
         public void StartGame()
         {
             gameState = GameState.ONGOING;
