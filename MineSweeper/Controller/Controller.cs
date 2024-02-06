@@ -47,7 +47,6 @@ namespace MineSweeper.Controller
             gameModel.OnLoseGame += gameModel_OnLoseGame;
             gameModel.OnWinGame += gameModel_OnWinGame;
         }
-
         private void StartNewGame()
         {
             gameModel.CreateNewGame();
@@ -56,8 +55,6 @@ namespace MineSweeper.Controller
 
             timer.Start();
         }
-
-        #region gameModel events
         private void timer_OnElapsed(object o, EventArgs e)
         {
             gameModel.TimerTick();
@@ -68,7 +65,8 @@ namespace MineSweeper.Controller
                 mainView.UpdateTime();
             }));
         }
-
+        
+        #region gameModel events
         private void gameModel_OnLoseGame()
         {
             mainView.UpdateView();

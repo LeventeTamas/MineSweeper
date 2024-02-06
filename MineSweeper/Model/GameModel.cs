@@ -199,8 +199,10 @@ namespace MineSweeper.Model
             }
         }
 
+        bool IsGameOver = false;
         public void RevealField(int row, int col)
         {
+            IsGameOver = false;
             if (fields[row, col].State != FieldState.MARKED && fields[row, col].State != FieldState.REVEALED){
                 // Set this field to revealed
                 fields[row, col].State = FieldState.REVEALED;
@@ -208,6 +210,7 @@ namespace MineSweeper.Model
                 // If it was a mine, then the player lose
                 if (fields[row, col].IsMine){
                     LoseGame();
+                    IsGameOver = true;
                     return;
                 }
 
@@ -218,6 +221,7 @@ namespace MineSweeper.Model
                                        select field).Count();
                 if(numOfUnrevealed == Settings.NumberOfMines){
                     WinGame();
+                    IsGameOver = true;
                     return;
                 }
 
@@ -230,7 +234,7 @@ namespace MineSweeper.Model
 
                     for (int r = rowStart; r <= rowEnd; r++)
                         for (int c = colStart; c <= colEnd; c++)
-                                RevealField(r, c);
+                            if(!IsGameOver) RevealField(r, c);
                 }
             }
         }
@@ -253,7 +257,7 @@ namespace MineSweeper.Model
 
                     for (int r = rowStart; r <= rowEnd; r++)
                         for (int c = colStart; c <= colEnd; c++)
-                            RevealField(r, c);
+                            if(!IsGameOver) RevealField(r, c);
                 }
                     
             }

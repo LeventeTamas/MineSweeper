@@ -204,7 +204,13 @@ namespace MineSweeper.View
         {
             OnRestartGame();
         }
+
+        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
         #endregion
+
 
     }
 }

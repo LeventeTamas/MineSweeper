@@ -33,6 +33,7 @@
             this.pauseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.newGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.restartGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveGameToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
@@ -45,7 +46,6 @@
             this.lbElapsedTime = new System.Windows.Forms.Label();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.restartGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -99,6 +99,13 @@
             this.newGameToolStripMenuItem.Text = "New Game";
             this.newGameToolStripMenuItem.Click += new System.EventHandler(this.newGameToolStripMenuItem_Click);
             // 
+            // restartGameToolStripMenuItem
+            // 
+            this.restartGameToolStripMenuItem.Name = "restartGameToolStripMenuItem";
+            this.restartGameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.restartGameToolStripMenuItem.Text = "Restart Game";
+            this.restartGameToolStripMenuItem.Click += new System.EventHandler(this.restartGameToolStripMenuItem_Click);
+            // 
             // loadGameToolStripMenuItem
             // 
             this.loadGameToolStripMenuItem.Name = "loadGameToolStripMenuItem";
@@ -123,6 +130,7 @@
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.settingsToolStripMenuItem.Text = "Settings...";
+            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
@@ -193,13 +201,6 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             this.openFileDialog1.Filter = "MineSweeper files|*.mine";
-            // 
-            // restartGameToolStripMenuItem
-            // 
-            this.restartGameToolStripMenuItem.Name = "restartGameToolStripMenuItem";
-            this.restartGameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.restartGameToolStripMenuItem.Text = "Restart Game";
-            this.restartGameToolStripMenuItem.Click += new System.EventHandler(this.restartGameToolStripMenuItem_Click);
             // 
             // MainWindow
             // 
