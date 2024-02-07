@@ -90,7 +90,7 @@ namespace MineSweeper.View
             mineZone1.SetFileds(mineZoneFields);
 
             // Update 'remaining mines' label
-            lbRemainingMines.Text = gameModel.GetRemainingMines().ToString("d2");
+            lbRemainingMines.Text = gameModel.GetRemainingMines().ToString();
 
             // Update 'elapsed time' label
             UpdateTime();

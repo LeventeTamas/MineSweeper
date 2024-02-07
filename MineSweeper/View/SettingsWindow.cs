@@ -30,7 +30,12 @@ namespace MineSweeper.View
 
             this.nudRows.Value = rows;
             this.nudCols.Value = cols;
-            this.nudMines.Value = mines;
+            this.nudMines.Maximum = Rows * Cols;
+            this.nudMines.Value = Math.Min(mines, this.nudMines.Maximum);
+
+            nudRows.ValueChanged += ValueChanged;
+            nudCols.ValueChanged += ValueChanged;
+            nudMines.ValueChanged += ValueChanged;
         }
 
         private void ValueChanged(object sender, EventArgs e)

@@ -87,7 +87,6 @@
             0,
             0,
             0});
-            this.nudRows.ValueChanged += new System.EventHandler(this.ValueChanged);
             // 
             // nudCols
             // 
@@ -105,7 +104,6 @@
             0,
             0,
             0});
-            this.nudCols.ValueChanged += new System.EventHandler(this.ValueChanged);
             // 
             // nudMines
             // 
@@ -164,6 +162,7 @@
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "SettingsWindow";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Game Settings";
             ((System.ComponentModel.ISupportInitialize)(this.nudRows)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudCols)).EndInit();
