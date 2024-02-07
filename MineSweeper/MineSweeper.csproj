@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>MineSweeper</RootNamespace>
     <AssemblyName>MineSweeper</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
@@ -51,10 +51,11 @@
     <Compile Include="Model\Field.cs" />
     <Compile Include="Model\GameModel.cs" />
     <Compile Include="Model\IGameModel.cs" />
-    <Compile Include="Model\IOUtility.cs" />
+    <Compile Include="Model\IOManager.cs" />
     <Compile Include="Model\Settings.cs" />
     <Compile Include="SharedStructs\Field.cs" />
     <Compile Include="SharedStructs\GameState.cs" />
+    <Compile Include="SharedStructs\Settings.cs" />
     <Compile Include="View\GameOverMessageBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -75,6 +76,12 @@
     <Compile Include="View\MineZone\MineZone.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="View\SettingsWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\SettingsWindow.Designer.cs">
+      <DependentUpon>SettingsWindow.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="View\GameOverMessageBox.resx">
       <DependentUpon>GameOverMessageBox.cs</DependentUpon>
     </EmbeddedResource>
@@ -91,6 +98,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="View\SettingsWindow.resx">
+      <DependentUpon>SettingsWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

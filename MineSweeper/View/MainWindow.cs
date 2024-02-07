@@ -27,6 +27,7 @@ namespace MineSweeper.View
         public event SaveGameEventHandler OnSaveGame;
         public event LoadSavedGameEventHandler OnLoadSavedGame;
         public event RestartGameEventHandler OnRestartGame;
+        public event ChangeSettingsEventHandler OnChangeSettings;
 
         public MainWindow(Model.IGameModel gameModel)
         {
@@ -207,7 +208,13 @@ namespace MineSweeper.View
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            SharedStructs.Settings settings = gameModel.GetSettings();
+            SettingsWindow sw = new SettingsWindow(settings.NumOfRows, settings.NumOfColumns, settings.NumOfMines);
+            if(sw.ShowDialog() == DialogResult.OK)
+            {
+                SharedStructs.Settings newSettings = new SharedStructs.Settings(sw.Rows, sw.Cols, sw.Mines);
+                OnChangeSettings(newSettings);
+            }
         }
         #endregion
 

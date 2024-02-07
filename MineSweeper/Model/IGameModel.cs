@@ -26,12 +26,14 @@ namespace MineSweeper.Model
         void MarkField(int row, int col);
         void RevealField(int row, int col);
         void ClearFieldsAround(int row, int col);
+        void ChangeSettings(SharedStructs.Settings newSettings);
 
         // Outputs
         SharedStructs.Field[,] GetFields();
         string GetElapsedTime();
         int GetRemainingMines();
         SharedStructs.GameState GetGameState();
+        SharedStructs.Settings GetSettings();
 
     }
 }

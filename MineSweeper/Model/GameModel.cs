@@ -34,25 +34,28 @@ namespace MineSweeper.Model
         [field: NonSerialized]
         public event WinGameEventHandler OnWinGame;
 
-        public Settings Settings { get { return settings; } }
+        public SharedStructs.Settings GetSettings()
+        {
+            return new SharedStructs.Settings(settings.NumberOfRows, settings.NumberOfColumns, settings.NumberOfMines);
+        }
 
         public GameModel()
         {
             random = new Random();
-            settings = new Settings();
-            fields = new Field[0,0];
+            settings = Settings.Load();
+            fields = new Field[settings.NumberOfRows, settings.NumberOfColumns];
             gameState = GameState.STOPPED;
         }
 
         public void TimerTick()
         {
-            if(gameState == GameState.ONGOING)
+            if (gameState == GameState.ONGOING)
                 elapsedSeconds++;
         }
 
         public void CreateNewGame()
         {
-            fields = new Field[settings.NumberOfRows, settings.NumOfColumns];
+            fields = new Field[settings.NumberOfRows, settings.NumberOfColumns];
 
             // Create fields
             for (int r = 0; r < fields.GetLength(0); r++)
@@ -61,10 +64,10 @@ namespace MineSweeper.Model
 
             // Place mines
             int count = settings.NumberOfMines;
-            while(count > 0){
+            while (count > 0) {
                 int r = random.Next(0, settings.NumberOfRows);
-                int c = random.Next(0, settings.NumOfColumns);
-                if (!fields[r, c].IsMine){
+                int c = random.Next(0, settings.NumberOfColumns);
+                if (!fields[r, c].IsMine) {
                     fields[r, c].IsMine = true;
                     count--;
                 }
@@ -131,7 +134,7 @@ namespace MineSweeper.Model
                                     newState = SharedStructs.FiledState.MINE;
                                 else
                                     newState = SharedStructs.FiledState.CLEARED;
-                                break; 
+                                break;
                             }
                     }
 
@@ -146,9 +149,9 @@ namespace MineSweeper.Model
             // Convert GameState to SharedStructs.GameState
             switch (gameState)
             {
-                case GameState.PAUSED: 
-                    return SharedStructs.GameState.PAUSED; 
-                case GameState.STOPPED: 
+                case GameState.PAUSED:
+                    return SharedStructs.GameState.PAUSED;
+                case GameState.STOPPED:
                     return SharedStructs.GameState.STOPPED;
                 default:
                     return SharedStructs.GameState.ONGOING;
@@ -161,8 +164,8 @@ namespace MineSweeper.Model
 
             int rowStart = Math.Max(row - 1, 0);
             int colStart = Math.Max(col - 1, 0);
-            int rowEnd = Math.Min(row + 1, fields.GetLength(0)-1);
-            int colEnd = Math.Min(col + 1, fields.GetLength(1)-1);
+            int rowEnd = Math.Min(row + 1, fields.GetLength(0) - 1);
+            int colEnd = Math.Min(col + 1, fields.GetLength(1) - 1);
 
             for (int r = rowStart; r <= rowEnd; r++)
                 for (int c = colStart; c <= colEnd; c++)
@@ -189,11 +192,11 @@ namespace MineSweeper.Model
 
         public void MarkField(int row, int col)
         {
-            if (fields[row, col].State == FieldState.COVERED && remainingMines > 0){
+            if (fields[row, col].State == FieldState.COVERED && remainingMines > 0) {
                 fields[row, col].State = FieldState.MARKED;
                 remainingMines--;
             }
-            else if (fields[row, col].State == FieldState.MARKED){
+            else if (fields[row, col].State == FieldState.MARKED) {
                 fields[row, col].State = FieldState.COVERED;
                 remainingMines++;
             }
@@ -203,12 +206,12 @@ namespace MineSweeper.Model
         public void RevealField(int row, int col)
         {
             IsGameOver = false;
-            if (fields[row, col].State != FieldState.MARKED && fields[row, col].State != FieldState.REVEALED){
+            if (fields[row, col].State != FieldState.MARKED && fields[row, col].State != FieldState.REVEALED) {
                 // Set this field to revealed
                 fields[row, col].State = FieldState.REVEALED;
 
                 // If it was a mine, then the player lose
-                if (fields[row, col].IsMine){
+                if (fields[row, col].IsMine) {
                     LoseGame();
                     IsGameOver = true;
                     return;
@@ -216,17 +219,17 @@ namespace MineSweeper.Model
 
                 // Check if the player won the game
                 // If the number of unrevealed fields are equal to the number of mines
-                int numOfUnrevealed = (from Field field in fields 
+                int numOfUnrevealed = (from Field field in fields
                                        where field.State != FieldState.REVEALED
                                        select field).Count();
-                if(numOfUnrevealed == Settings.NumberOfMines){
+                if (numOfUnrevealed == settings.NumberOfMines) {
                     WinGame();
                     IsGameOver = true;
                     return;
                 }
 
                 // If this field has no mines around it, than we call the RevealField method recursively for all surrounding fields
-                if (fields[row, col].MinesAround == 0){
+                if (fields[row, col].MinesAround == 0) {
                     int rowStart = Math.Max(row - 1, 0);
                     int colStart = Math.Max(col - 1, 0);
                     int rowEnd = Math.Min(row + 1, fields.GetLength(0) - 1);
@@ -234,7 +237,7 @@ namespace MineSweeper.Model
 
                     for (int r = rowStart; r <= rowEnd; r++)
                         for (int c = colStart; c <= colEnd; c++)
-                            if(!IsGameOver) RevealField(r, c);
+                            if (!IsGameOver) RevealField(r, c);
                 }
             }
         }
@@ -257,9 +260,9 @@ namespace MineSweeper.Model
 
                     for (int r = rowStart; r <= rowEnd; r++)
                         for (int c = colStart; c <= colEnd; c++)
-                            if(!IsGameOver) RevealField(r, c);
+                            if (!IsGameOver) RevealField(r, c);
                 }
-                    
+
             }
         }
 
@@ -278,5 +281,10 @@ namespace MineSweeper.Model
             OnWinGame();
         }
 
+        public void ChangeSettings(SharedStructs.Settings newSettings)
+        {
+            settings.ChangeSettings(newSettings);
+            settings.Save();
+        }
     }
 }

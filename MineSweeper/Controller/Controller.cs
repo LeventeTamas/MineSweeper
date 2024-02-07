@@ -32,6 +32,7 @@ namespace MineSweeper.Controller
             mainView.OnSaveGame += mainView_OnSaveGame;
             mainView.OnLoadSavedGame += mainView_OnLoadSavedGame;
             mainView.OnRestartGame += mainView_OnRestartGame;
+            mainView.OnChangeSettings += mainView_OnChangeSettings;
 
             mainView.Show();
 
@@ -49,6 +50,8 @@ namespace MineSweeper.Controller
         }
         private void StartNewGame()
         {
+            timer.Stop();
+
             gameModel.CreateNewGame();
             gameModel.StartGame();
             mainView.UpdateView();
@@ -60,10 +63,14 @@ namespace MineSweeper.Controller
             gameModel.TimerTick();
 
             if (mainView == null) return;
-            mainView.Invoke(new MethodInvoker(delegate
+            try
             {
-                mainView.UpdateTime();
-            }));
+                mainView.Invoke(new MethodInvoker(delegate
+                {
+                    mainView.UpdateTime();
+                }));
+            }
+            catch { }
         }
         
         #region gameModel events
@@ -129,12 +136,12 @@ namespace MineSweeper.Controller
 
         private void mainView_OnSaveGame(string path)
         {
-            Model.IOUtility.SaveIGameModel(path, gameModel);
+            Model.IOManager.SaveIGameModel(path, gameModel);
         }
 
         private void mainView_OnLoadSavedGame(string path)
         {
-            gameModel = Model.IOUtility.LoadIGameModel(path);
+            gameModel = Model.IOManager.LoadIGameModel(path);
 
             RegisterGameModelEvents();
 
@@ -156,6 +163,12 @@ namespace MineSweeper.Controller
             mainView.UpdateView();
             timer.Start();
 
+        }
+
+        private void mainView_OnChangeSettings(SharedStructs.Settings settings)
+        {
+            gameModel.ChangeSettings(settings);
+            StartNewGame();
         }
         #endregion
     }

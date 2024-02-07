@@ -17,6 +17,7 @@ namespace MineSweeper.View
     public delegate void SaveGameEventHandler(string path);
     public delegate void LoadSavedGameEventHandler(string path);
     public delegate void RestartGameEventHandler();
+    public delegate void ChangeSettingsEventHandler(SharedStructs.Settings newSettings);
     public interface IMainView
     {
         event WindowClosingEventHandler OnWindowClosing;
@@ -28,6 +29,7 @@ namespace MineSweeper.View
         event SaveGameEventHandler OnSaveGame;
         event LoadSavedGameEventHandler OnLoadSavedGame;
         event RestartGameEventHandler OnRestartGame;
+        event ChangeSettingsEventHandler OnChangeSettings;
 
         void SetGameModel(IGameModel gameModel);
         void Show();
