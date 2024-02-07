@@ -7,4 +7,4 @@ MineSweeper game made in C# with WinForms using .NET Framework 4.7.2 applying MV
 - Scoreboard: -will be implemented in the future-
 
 # Known issues
-- Saving new settings doesn't always works
+- Saving new settings doesn't always work
