@@ -54,7 +54,6 @@
             this.btnNew.TabIndex = 1;
             this.btnNew.Text = "New Game";
             this.btnNew.UseVisualStyleBackColor = true;
-            this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
             // 
             // btnRestart
             // 
@@ -66,7 +65,6 @@
             this.btnRestart.TabIndex = 2;
             this.btnRestart.Text = "Restart Game";
             this.btnRestart.UseVisualStyleBackColor = true;
-            this.btnRestart.Click += new System.EventHandler(this.btnRestart_Click);
             // 
             // btnCancel
             // 
@@ -78,7 +76,6 @@
             this.btnCancel.TabIndex = 3;
             this.btnCancel.Text = "Close";
             this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // GameOverMessageBox
             // 

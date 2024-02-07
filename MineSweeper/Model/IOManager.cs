@@ -10,7 +10,7 @@ namespace MineSweeper.Model
 {
     public class IOManager
     {
-        
+        #region Export-Import Game
         public static void SaveIGameModel(string path, IGameModel gameModel)
         {
             using (Stream stream = File.Open(path, FileMode.Create))
@@ -28,7 +28,9 @@ namespace MineSweeper.Model
                 return (IGameModel)binaryFormatter.Deserialize(stream);
             }
         }
+        #endregion
 
+        #region Settings File
         [DllImport("kernel32")]
         private static extern long WritePrivateProfileString(string section, string key, string val, string filePath);
         [DllImport("kernel32")]
@@ -46,6 +48,7 @@ namespace MineSweeper.Model
             return temp.ToString();
 
         }
+        #endregion
 
     }
 }

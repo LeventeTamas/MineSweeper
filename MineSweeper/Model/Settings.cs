@@ -34,12 +34,6 @@ namespace MineSweeper.Model
             set { numberOfMines = value; }
         }
 
-        public Settings() { 
-            numberOfColumns = 10;
-            numberOfRows = 10;
-            numberOfMines = 15;
-        }
-
         public Settings(int numberOfColumns, int numberOfRows, int numberOfMines)
         {
             this.numberOfColumns = numberOfColumns;

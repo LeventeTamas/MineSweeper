@@ -19,7 +19,7 @@ namespace MineSweeper.View.MineZone
         private MineZoneField[,] fields;
         public const int FIELD_SIZE = 40;
 
-        // Create Images
+        // Fields' textures
         Bitmap imageCovered;
         Bitmap imageHighlighted;
         Bitmap imageMarked;
@@ -40,7 +40,7 @@ namespace MineSweeper.View.MineZone
             this.MouseClick += MouseClickHandler;
             this.MouseDoubleClick += MouseDoubleClickHandler;
 
-            // Create Images
+            // Create Textures
             imageCovered = GraphicsHelper.CreateFieldImage(FIELD_SIZE, FIELD_SIZE, Color.AliceBlue, Color.FromArgb(45, 128, 255));
             imageHighlighted = GraphicsHelper.CreateFieldImage(FIELD_SIZE, FIELD_SIZE, Color.AliceBlue, Color.FromArgb(95, 178, 255));
             imageMarked = GraphicsHelper.CreateFieldImage(FIELD_SIZE, FIELD_SIZE, Color.AliceBlue, Color.FromArgb(255, 178, 45));
@@ -96,8 +96,9 @@ namespace MineSweeper.View.MineZone
                    this.Invalidate();
                 }
             }
-        } 
+        }
 
+        #endregion
         private int[] GetSelectedFieldCoords(int mouseX, int mouseY)
         {
             int[] coords = null;
@@ -115,9 +116,7 @@ namespace MineSweeper.View.MineZone
 
             return coords;
         }
-        #endregion
 
-        #region Render
         protected override void OnPaint(PaintEventArgs e)
         {
             int rowNum = fields.GetLength(0);
@@ -131,8 +130,11 @@ namespace MineSweeper.View.MineZone
             {
                 for (int c = 0; c < colNum; c++)
                 {
+                    // x, y: position of the field
                     int y = r * FIELD_SIZE;
                     int x = c * FIELD_SIZE;
+
+                    // Select the image according to the field's state
                     Bitmap image = imageCovered;
                     switch (fields[r, c].FieldType)
                     {
@@ -147,7 +149,11 @@ namespace MineSweeper.View.MineZone
                                 break;
                             }
                     }
+
+                    //Draw image
                     g.DrawImage(image, x, y, FIELD_SIZE, FIELD_SIZE);
+
+                    // Show the number of surrounding mines
                     if (fields[r, c].FieldType == MineZoneFieldType.REVEALED) {
                         Font font = new Font("Comic Sans MS", 12);
                         SizeF stringSize = GraphicsHelper.MeasureString(fields[r, c].Content, font);
@@ -171,7 +177,6 @@ namespace MineSweeper.View.MineZone
             }
             
         }
-        
-        #endregion
+
     }
 }

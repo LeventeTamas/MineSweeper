@@ -32,6 +32,7 @@ namespace MineSweeper.View
         public MainWindow(Model.IGameModel gameModel)
         {
             this.gameModel = gameModel;
+
             InitializeComponent();
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
 
@@ -67,13 +68,13 @@ namespace MineSweeper.View
                     MineZone.MineZoneFieldType mineZoneFieldType = MineZone.MineZoneFieldType.COVERED;
                     switch (fields[r, c].State)
                     {
-                        case SharedStructs.FiledState.MARKED: {
+                        case SharedStructs.FieldState.MARKED: {
                                 mineZoneFieldType = MineZone.MineZoneFieldType.MARKED; break;
                             }
-                        case SharedStructs.FiledState.CLEARED: {
+                        case SharedStructs.FieldState.CLEARED: {
                                 mineZoneFieldType = MineZone.MineZoneFieldType.REVEALED; break;
                             }
-                        case SharedStructs.FiledState.MINE:{
+                        case SharedStructs.FieldState.MINE:{
                                 mineZoneFieldType = MineZone.MineZoneFieldType.MINE; break;
                             }
                         default:{
@@ -95,6 +96,7 @@ namespace MineSweeper.View
             // Update 'elapsed time' label
             UpdateTime();
 
+            // Set UI according to the game status
             SharedStructs.GameState gameState = gameModel.GetGameState();
             switch(gameState)
             {
@@ -121,14 +123,12 @@ namespace MineSweeper.View
                     }
             }
 
-        }
-        
+        }    
         public void UpdateTime()
         {
             // Update 'elapsed time' label
             lbElapsedTime.Text = gameModel.GetElapsedTime();
         }
-
         public void LoseGame()
         {
             GameOverMessageBox gameOverMessageBox = new GameOverMessageBox("You have activated a mine. You lost!");
@@ -139,7 +139,6 @@ namespace MineSweeper.View
             else if(result == DialogResult.Retry)
                 OnRestartGame();
         }
-
         public void WinGame()
         {
             GameOverMessageBox gameOverMessageBox = new GameOverMessageBox("You have cleared all fields. You won!");

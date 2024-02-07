@@ -17,7 +17,6 @@ namespace MineSweeper.Controller
 
         public Controller()
         {
-            
 
             gameModel = new Model.GameModel();
             RegisterGameModelEvents();
@@ -33,7 +32,6 @@ namespace MineSweeper.Controller
             mainView.OnLoadSavedGame += mainView_OnLoadSavedGame;
             mainView.OnRestartGame += mainView_OnRestartGame;
             mainView.OnChangeSettings += mainView_OnChangeSettings;
-
             mainView.Show();
 
             timer = new System.Timers.Timer();
@@ -62,7 +60,9 @@ namespace MineSweeper.Controller
         {
             gameModel.TimerTick();
 
-            if (mainView == null) return;
+            /*  This Try-Catch is a workaround.
+                Issue: When the application is being closed and the timer calls this method at the same time,
+                there's a chance that the 'mainView' is in an unstable state, causing runtime error */
             try
             {
                 mainView.Invoke(new MethodInvoker(delegate

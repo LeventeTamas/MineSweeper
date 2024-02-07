@@ -17,7 +17,7 @@ namespace MineSweeper.Model
     [Serializable]
     public class Field
     {
-        public bool IsMine;         // indicates whether this field contains a mine
+        public bool IsMine;         // Indicates whether this field contains a mine
         public FieldState State;    
         public byte MinesAround;    // Number of mines around this field
 
@@ -26,13 +26,6 @@ namespace MineSweeper.Model
             IsMine = false;
             State = FieldState.COVERED;
             MinesAround = 0;
-        }
-
-        public Field(bool isMine, byte minesAround, FieldState state = FieldState.COVERED)
-        {
-            IsMine = isMine;
-            State = state;
-            MinesAround = minesAround;
         }
     }
 }

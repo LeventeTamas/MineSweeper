@@ -36,9 +36,7 @@ namespace MineSweeper.View.MineZone
             brush.SurroundColors = new Color[] { color2 };
 
             using (Graphics g = Graphics.FromImage(bitmap))
-            {
                 g.FillRectangle(brush, 0, 0, width, height);
-            }
 
             return bitmap;
         }

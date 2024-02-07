@@ -17,6 +17,8 @@ namespace MineSweeper.View
             InitializeComponent();
 
             lbGameResult.Text = gameResultText;
+
+            // Placing text to the center
             SizeF textSize = MeasureString(lbGameResult.Text, lbGameResult.Font);
             int locationX = (int)Math.Round(this.Width / 2 - textSize.Width / 2);
             int locationY = lbGameResult.Location.Y;
@@ -37,21 +39,6 @@ namespace MineSweeper.View
             }
 
             return result;
-        }
-
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnRestart_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnNew_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
