@@ -8,3 +8,4 @@ MineSweeper game made in C# with WinForms using .NET Framework 4.7.2 applying MV
 
 # Known issues
 - Saving new settings doesn't always work
+- The firstly picked field shouldn't be a mine
